@@ -63,7 +63,7 @@ Para clonar o repositório e iniciar o projeto, siga os passos abaixo:
 ### Clone do Projeto
 ```bash
 git clone https://github.com/mateusvfreitas/ibm-code-challenge-migration.git
-cd code-challenge-migration
+cd ibm-code-challenge-migration
 ```
 
 ### Execução com Maven
