@@ -13,7 +13,7 @@ public class WebClientConfig {
 
 
     @Value("${api.dummyjson.base-url}")
-    private String baseUrl; // URL base da API
+    private String baseUrl;
 
     /**
      * Cria um WebClient com a URL base configurada.

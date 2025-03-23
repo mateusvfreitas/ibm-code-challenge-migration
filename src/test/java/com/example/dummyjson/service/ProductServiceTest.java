@@ -4,13 +4,16 @@ import com.example.dummyjson.dto.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -53,7 +56,7 @@ public class ProductServiceTest {
         productService = new ProductService(webClient);
 
         try {
-            java.lang.reflect.Field field = ProductService.class.getDeclaredField("productsPath");
+            Field field = ProductService.class.getDeclaredField("productsPath");
             field.setAccessible(true);
             field.set(productService, "/products");
         } catch (Exception e) {
@@ -74,15 +77,19 @@ public class ProductServiceTest {
         product2.setId(2L);
         product2.setTitle("Product 2");
 
-        List<Product> products = List.of(product1, product2);
+        List<Product> products = Arrays.asList(product1, product2);
 
-        when(responseSpec.bodyToFlux(Product.class)).thenReturn(Flux.fromIterable(products));
+        Map<String, Object> responseMap = Map.of("products", products);
+        when(responseSpec.bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {}))
+                .thenReturn(Mono.just(responseMap));
 
         List<Product> result = productService.getAllProducts();
 
         assertNotNull(result);
         assertEquals(2, result.size());
+        assertEquals(1L, result.get(0).getId());
         assertEquals("Product 1", result.get(0).getTitle());
+        assertEquals(2L, result.get(1).getId());
         assertEquals("Product 2", result.get(1).getTitle());
     }
 

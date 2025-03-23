@@ -5,9 +5,15 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * Testes para {@link Product}.
+ */
 @SpringBootTest
 public class ProductTest {
 
+    /**
+     * Teste de getters e setters.
+     */
     @Test
     void testGetAndSetters() {
         Long expectedId = 1L;

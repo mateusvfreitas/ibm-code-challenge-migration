@@ -59,20 +59,26 @@ api:
 ```
 
 ## Executar a Aplicação
+Para clonar o repositório e iniciar o projeto, siga os passos abaixo:
+### Clone do Projeto
+```bash
+git clone https://github.com/mateusvfreitas/ibm-code-challenge-migration.git
+cd code-challenge-migration
+```
 
-### Com Maven
+### Execução com Maven
 ```bash
 mvn clean install
 mvn spring-boot:run
 ```
 
-### Com Docker
+### Execução com Docker
 ```bash
 docker build -t dummyjson-app .
 docker run -p 8080:8080 dummyjson-app
 ```
 
-### Com Docker Compose
+### Execução com Docker Compose
 ```bash
 docker-compose up
 ```
@@ -90,7 +96,7 @@ A documentação da API está disponível em:
 - `GET /api/products`: Lista todos os produtos
 - `GET /api/products/{id}`: Busca um produto pelo ID
 - `GET /health`: Verifica a saúde do microsserviço
-- `GET /actuator/health`: Verifica a saúde do microsserviço
+- `GET /actuator/health`: Verifica a saúde do microsserviço via Spring Boot Actuator.
 
 ## Tecnologias Utilizadas
 - **Java 17**
@@ -102,3 +108,30 @@ A documentação da API está disponível em:
 
 ## Containerização
 O projeto inclui um Dockerfile e um arquivo docker-compose.yml para facilitar a execução em ambientes containerizados.
+
+## Monitoramento de Saúde
+O microsserviço inclui dois endpoints para verificação de saúde:
+
+- `/health`: Um endpoint customizado que pode ser implementado para verificar a saúde do microsserviço.
+
+- `/actuator/health`: Endpoint fornecido pelo Spring Boot Actuator, que oferece uma visão detalhada da saúde do microsserviço, incluindo status de dependências e componentes internos.
+
+### Exemplo de Resposta do Actuator Health
+```json
+{
+    "status": "UP",
+    "components": {
+        "diskSpace": {
+            "status": "UP",
+            "details": {
+                "total": 500107862016,
+                "free": 300107862016,
+                "threshold": 10485760,
+            }
+        },
+        "ping": {
+            "status": "UP"
+        }
+    }
+}
+```

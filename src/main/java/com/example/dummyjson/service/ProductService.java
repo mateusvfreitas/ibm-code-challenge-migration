@@ -37,12 +37,6 @@ public class ProductService {
                 .bodyToMono(new ParameterizedTypeReference<Map<String, Object>>() {})
                 .map(response -> (List<Product>) response.get("products"))
                 .block();
-//        return webClient.get()
-//                .uri(productsPath)
-//                .retrieve()
-//                .bodyToFlux(Product.class)
-//                .collectList()
-//                .block();
     }
 
     /**
